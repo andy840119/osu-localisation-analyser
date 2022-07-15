@@ -58,6 +58,10 @@ namespace LocalisationAnalyser.Analysers
                         return;
                     }
                     
+                    // we do not translate the adding string.
+                    if(literal.Parent is BinaryExpressionSyntax)
+                        return;
+                    
                     // should not convert the 
                     // like: method("aaa");
                     // see: https://stackoverflow.com/a/45362532/4105113
@@ -65,10 +69,13 @@ namespace LocalisationAnalyser.Analysers
                     if (invocation != null)
                     {
                         // get the declaration method
-                        var methodSymbol = context
+                        var symbolInfo = context
                             .SemanticModel
-                            .GetSymbolInfo(invocation, context.CancellationToken)
-                            .Symbol as IMethodSymbol;
+                            .GetSymbolInfo(invocation, context.CancellationToken);
+                        
+                        // todo: should not be the first of default.
+                        var methodSymbol = symbolInfo.Symbol as IMethodSymbol ??
+                                           symbolInfo.CandidateSymbols.FirstOrDefault() as IMethodSymbol;
 
                         // than, find the index of argument.
                         var argumentSyntax = literal.Parent as ArgumentSyntax;
