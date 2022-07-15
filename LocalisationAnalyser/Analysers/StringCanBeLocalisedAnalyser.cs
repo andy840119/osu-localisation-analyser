@@ -59,8 +59,25 @@ namespace LocalisationAnalyser.Analysers
                     }
                     
                     // should not convert the 
-                    // like method("aaa");
-                    var method = literal.FirstAncestorOrSelf<InvocationExpressionSyntax>();
+                    // like: method("aaa");
+                    // see: https://stackoverflow.com/a/45362532/4105113
+                    var invocation = literal.FirstAncestorOrSelf<InvocationExpressionSyntax>();
+                    if (invocation != null)
+                    {
+                        // get the declaration method
+                        var methodSymbol = context
+                            .SemanticModel
+                            .GetSymbolInfo(invocation, context.CancellationToken)
+                            .Symbol as IMethodSymbol;
+
+                        // than, find the index of argument.
+                        var argumentSyntax = literal.Parent as ArgumentSyntax;
+                        var index = invocation.ArgumentList.Arguments.IndexOf(argumentSyntax);
+                        
+                        // if argument type is string.
+                        if(methodSymbol?.Parameters[index].ToString() == "string")
+                            return;
+                    }
 
                     context.ReportDiagnostic(Diagnostic.Create(DiagnosticRules.STRING_CAN_BE_LOCALISED, context.Node.GetLocation(), context.Node));
                     break;
