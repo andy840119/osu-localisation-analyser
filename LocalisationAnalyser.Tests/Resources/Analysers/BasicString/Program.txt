@@ -1,3 +1,5 @@
+using osu.Framework.Localisation;
+
 namespace Test
 {
     class Program
