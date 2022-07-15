@@ -49,6 +49,15 @@ namespace LocalisationAnalyser.Analysers
                             return;
                     }
 
+                    // Ignore strings if return type is not localisation string.
+                    // like: string a = "123";
+                    // see: https://stackoverflow.com/a/23878410
+                    var declaration = literal.FirstAncestorOrSelf<VariableDeclarationSyntax>();
+                    if (declaration != null && declaration.Type.Kind() == SyntaxKind.PredefinedType && declaration.Type.ToString() == "string")
+                    {
+                        return;
+                    }
+
                     context.ReportDiagnostic(Diagnostic.Create(DiagnosticRules.STRING_CAN_BE_LOCALISED, context.Node.GetLocation(), context.Node));
                     break;
 
