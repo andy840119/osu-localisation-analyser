@@ -2,14 +2,14 @@ namespace Test
 {
     class Program
     {
-        private static string y = [|$"abc"|];
+        private static LocalisableString y = [|$"abc"|];
 
         static void Main()
         {
-            string x = [|$"abc"|];
+            LocalisableString x = [|$"abc"|];
             method([|$"abc"|]);
         }
 
-        private static void method(string input) { }
+        private static void method(LocalisableString input) { }
     }
 }

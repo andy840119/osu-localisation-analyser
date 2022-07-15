@@ -2,14 +2,19 @@ namespace Test
 {
     class Program
     {
-        private static string y = [|"abc"|];
+        private static string y1 = "abc";
+        private static LocalisableString y2 = [|"abc"|];
 
         static void Main()
         {
-            string x = [|"abc"|];
-            method([|"abc"|]);
+            string x1 = "abc";
+            LocalisableString x2 = [|"abc"|];
+            
+            method1("abc");
+            method2([|"abc"|]);
         }
 
-        private static void method(string input) { }
+        private static void method1(string input) { }
+        private static void method2(LocalisableString input) { }
     }
 }

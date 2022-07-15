@@ -2,14 +2,14 @@ namespace Test
 {
     class Program
     {
-        private static string y = "";
+        private static LocalisableString y = "";
 
         static void Main()
         {
-            string x = "";
+            LocalisableString x = "";
             method("");
         }
 
-        private static void method(string input) { }
+        private static void method(LocalisableString input) { }
     }
 }
