@@ -4,6 +4,8 @@ namespace osu.Framework.Localisation
 {
     public readonly struct LocalisableString
     {
+        public static implicit operator LocalisableString(string text) => new LocalisableString();
+        
         public static implicit operator LocalisableString(TranslatableString translatable) => new LocalisableString();
         
         // This doesn't exist in the original code, but is required to avoid a compile error during analysis.
