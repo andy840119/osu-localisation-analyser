@@ -57,6 +57,10 @@ namespace LocalisationAnalyser.Analysers
                     {
                         return;
                     }
+                    
+                    // should not convert the 
+                    // like method("aaa");
+                    var method = literal.FirstAncestorOrSelf<InvocationExpressionSyntax>();
 
                     context.ReportDiagnostic(Diagnostic.Create(DiagnosticRules.STRING_CAN_BE_LOCALISED, context.Node.GetLocation(), context.Node));
                     break;
